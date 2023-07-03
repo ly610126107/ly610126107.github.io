@@ -2,73 +2,73 @@ version: '1.0'
 name: pipeline-20230703
 displayName: 自动化部署个人博客页面到阿里云服务器
 triggers:
-  trigger: auto
-  push:
-    branches:
-      precise:
-        - main
+    trigger: auto
+    push:
+        branches:
+            precise:
+                - main
 variables:
-  blog_project_path: /var/webProjects/my-blog
+    blog_project_path: /var/webProjects/my-blog
 stages:
-  - name: stage-162f5c78
-    displayName: 拉取代码到云服务器
-    strategy: naturally
-    trigger: auto
-    executor: []
-    steps:
-      - step: rolling@agent
-        name: rolling_deploy
-        displayName: 主机滚动部署
-        hostGroupID:
-          ID: ali-cloud
-          hostID:
-            - 72fbc659-237f-4f9a-acf2-f14d1c3f7a36
-        rollingNum: 1/2
-        deployArtifact:
-          - source: artifact
-            name: my-blog
-            target: ~/var/webProjects/my-blog
-            artifactRepository: default
-            artifactName: output
-            artifactVersion: latest
-        script:
-          - '# 功能：部署脚本会在部署主机组的每台机器上执行'
-          - '# 使用场景：先将制品包解压缩到指定目录中，再执行启动脚本deploy.sh，脚本示例地址：https://gitee.com/gitee-go/spring-boot-maven-deploy-case/blob/master/deploy.sh'
-          - '# mkdir -p /home/admin/app'
-          - '# tar zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/app'
-          - '# sh /home/admin/app/deploy.sh restart'
-          - '# 如果你是php之类的无需制品包的制品方式，可以使用 git clone 或者 git pull 将源代码更新到服务器，再执行其他命令'
-          - '# git clone ***@***.git'
-          - echo 'Hello Gitee Go!'
-        notify: []
-        strategy:
-          retry: '0'
-  - name: stage-f92548b8
-    displayName: 自动化部署个人博客项目
-    strategy: naturally
-    trigger: auto
-    executor:
-      - ly610126107
-    steps:
-      - step: build@nodejs
-        name: build_nodejs
-        displayName: Nodejs 构建
-        nodeVersion: 17.8.0
-        commands:
-          - cd /var/webProjects/my-blog
-          - ''
-          - '# 设置NPM源，提升安装速度'
-          - npm config set registry https://registry.npmmirror.com
-          - ''
-          - '# 执行编译命令'
-          - npm install && npm run build
-        artifacts:
-          - name: BUILD_ARTIFACT
-            path:
-              - ./src/.vuepress/dist
-        caches:
-          - ~/.npm
-          - ~/.yarn
-        notify: []
-        strategy:
-          retry: '0'
+    - name: stage-162f5c78
+      displayName: 拉取代码到云服务器
+      strategy: naturally
+      trigger: auto
+      executor: []
+      steps:
+          - step: rolling@agent
+            name: rolling_deploy
+            displayName: 主机滚动部署
+            hostGroupID:
+                ID: ali-cloud
+                hostID:
+                    - 72fbc659-237f-4f9a-acf2-f14d1c3f7a36
+            rollingNum: 1/2
+            deployArtifact:
+                - source: artifact
+                  name: my-blog
+                  target: ~/var/webProjects/my-blog
+                  artifactRepository: default
+                  artifactName: output
+                  artifactVersion: latest
+            script:
+                - '# 功能：部署脚本会在部署主机组的每台机器上执行'
+                - '# 使用场景：先将制品包解压缩到指定目录中，再执行启动脚本deploy.sh，脚本示例地址：https://gitee.com/gitee-go/spring-boot-maven-deploy-case/blob/master/deploy.sh'
+                - ' mkdir -p /home/admin/app'
+                - ' tar zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/app'
+                - ' sh /home/admin/app/deploy.sh restart'
+                - '# 如果你是php之类的无需制品包的制品方式，可以使用 git clone 或者 git pull 将源代码更新到服务器，再执行其他命令'
+                - '# git clone ***@***.git'
+                - echo 'Hello Gitee Go!'
+            notify: []
+            strategy:
+                retry: '0'
+    - name: stage-f92548b8
+      displayName: 自动化部署个人博客项目
+      strategy: naturally
+      trigger: auto
+      executor:
+          - ly610126107
+      steps:
+          - step: build@nodejs
+            name: build_nodejs
+            displayName: Nodejs 构建
+            nodeVersion: 17.8.0
+            commands:
+                - cd /var/webProjects/my-blog
+                - ''
+                - '# 设置NPM源，提升安装速度'
+                - npm config set registry https://registry.npmmirror.com
+                - ''
+                - '# 执行编译命令'
+                - npm install && npm run build
+            artifacts:
+                - name: BUILD_ARTIFACT
+                  path:
+                      - ./src/.vuepress/dist
+            caches:
+                - ~/.npm
+                - ~/.yarn
+            notify: []
+            strategy:
+                retry: '0'
