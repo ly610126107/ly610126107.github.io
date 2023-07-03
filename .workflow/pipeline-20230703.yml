@@ -29,7 +29,7 @@ stages:
         artifacts:
           - name: BUILD_ARTIFACT
             path:
-              - ./src/vuepress/dist
+              - ./src/.vuepress/dist
         caches:
           - ~/.npm
           - ~/.yarn
