@@ -18,7 +18,16 @@ export default hopeTheme({
 
   logo: "/logo.svg",
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  darkmode:'disable',
+
+
+  repo: "ly610126107/ly610126107.github.io",
+  // 自定义仓库链接文字。默认从 `repo` 中自动推断为
+  // "GitHub" / "GitLab" / "Gitee" / "Bitbucket" 其中之一，或是 "Source"。
+  repoLabel: "GitHub",
+  // 是否在导航栏内显示仓库链接，默认为 `true`
+  repoDisplay: false,
+
 
   docsDir: "src",
 

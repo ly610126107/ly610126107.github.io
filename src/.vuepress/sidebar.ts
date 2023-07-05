@@ -8,7 +8,7 @@ export default sidebar({
       icon: "laptop-code",
       prefix: "demo/",
       link: "demo/",
-      children: "structure",
+      children: 'structure',
     },
     {
       text: "文章",

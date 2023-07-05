@@ -4,7 +4,7 @@ layout: BlogHome
 icon: home
 title: 博客主页
 heroImage: /logo.svg
-heroText: AfterRain
+heroText: 𝓐𝓯𝓪𝓽𝓮𝓻𝓡𝓪𝓲𝓷
 heroFullScreen: true
 tagline: 博学而笃志，切问而近思
 projects:
